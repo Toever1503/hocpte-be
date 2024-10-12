@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    active:
+      - dev
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 200MB
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          transaction: trace

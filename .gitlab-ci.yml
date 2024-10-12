@@ -1,0 +1,15 @@
+stages:
+  - build
+build:
+  stage: build
+  tags:
+    - shell-runner
+  script:
+    - chmod +x gradlew
+    - ./gradlew assemble
+    - docker container rm -f be_app_prod || echo ""
+    - docker image rm -f be_app_prod:latest || echo ""
+    - docker build -t be_app_prod:latest .
+    - docker run -t -d -p 8086:8085 -v /data-media/prod/uploads:/uploads -w /app --name be_app_prod be_app_prod:latest
+  only:
+    - /^prod_[0-9]+(?:.[0-9]+)+$/
